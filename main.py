@@ -3,6 +3,8 @@ from tkinter import *
 import random
 import pygame
 pygame.mixer.init()
+pygame.mixer.music.load("Tem Shop 4.mp3") # credits to toby fox
+pygame.mixer.music.set_volume(1.0)
 jumpscare_sound = pygame.mixer.Sound("scary-scream-401725 (1).wav")
 
 GAME_WIDTH = 1000
@@ -55,6 +57,8 @@ class Food:
        self.coordinates = [x, y]
 
        canvas.create_oval(x,y,x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tags="food")
+
+pygame.mixer.music.play(-1)
 
 def next_turn(snake,food):
     x,y = snake.coordinates[0]
@@ -137,10 +141,34 @@ def check_collisions(snake):
     return False
 
 def game_over():
+
+    pygame.mixer.music.stop()
+
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
-                       font=('Times',120), text="GAME OVER", fill="#F72119", tag="gameover")
+    canvas.create_text(
+        canvas.winfo_width() / 2,
+        canvas.winfo_height() / 2,
+        font=('Times', 120),
+        text="GAME OVER",
+        fill="#F72119"
+    )
+
     jumpscare_sound.play()
+    window.after(500, show_jumpscare)
+
+
+def show_jumpscare():
+    JUMPSCARE_WIDTH = 1000
+    JUMPSCARE_HEIGHT = 800
+
+    jumpscare = PILImage.open("jumpscare.jpg")
+    resized = jumpscare.resize((JUMPSCARE_WIDTH, JUMPSCARE_HEIGHT),
+                               PILImage.Resampling.LANCZOS)
+
+    jumpscare_img = ImageTk.PhotoImage(resized)
+    canvas.create_image(0, 0, image=jumpscare_img, anchor="nw")
+    canvas.jumpscare_img = jumpscare_img
+
 
 window = Tk()
 window.title("Labubbu")
