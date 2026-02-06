@@ -1,11 +1,28 @@
 from PIL import Image as PILImage, ImageTk
 from tkinter import *
 import random
+import os
+import sys
 import pygame
+
+
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
+    return os.path.join(base_path, relative_path)
+
+
+def get_high_score_path():
+    app_dir = os.path.join(os.path.expanduser("~"), ".usagi_scary_snake")
+    os.makedirs(app_dir, exist_ok=True)
+    return os.path.join(app_dir, "highscore.txt")
+
+
+HIGH_SCORE_PATH = get_high_score_path()
+
 pygame.mixer.init()
-pygame.mixer.music.load("Tem Shop 4.mp3") # credits to toby fox
+pygame.mixer.music.load(resource_path("Tem Shop 4.mp3")) # credits to toby fox
 pygame.mixer.music.set_volume(1.0)
-jumpscare_sound = pygame.mixer.Sound("scary-scream-401725 (1).wav")
+jumpscare_sound = pygame.mixer.Sound(resource_path("scary-scream-401725 (1).wav"))
 
 GAME_WIDTH = 1000
 GAME_HEIGHT = 700
@@ -194,7 +211,7 @@ class Snake:
         for i in range(BODY_PARTS):
             self.coordinates.append([0, 0])
 
-        original = PILImage.open("snake_head.png")
+        original = PILImage.open(resource_path("snake_head.png"))
         resized = original.resize((SPACE_SIZE, SPACE_SIZE), PILImage.Resampling.LANCZOS)
         self.head_image = ImageTk.PhotoImage(resized)
 
@@ -397,7 +414,7 @@ def show_jumpscare():
     JUMPSCARE_WIDTH = 1000
     JUMPSCARE_HEIGHT = 800
 
-    jumpscare = PILImage.open("jumpscare.jpg")
+    jumpscare = PILImage.open(resource_path("jumpscare.jpg"))
     resized = jumpscare.resize((JUMPSCARE_WIDTH, JUMPSCARE_HEIGHT),
                                PILImage.Resampling.LANCZOS)
 
@@ -419,14 +436,14 @@ def return_to_menu_with_music():
 def load_high_score():
     global high_score
     try:
-        with open("highscore.txt", "r") as file:
+        with open(HIGH_SCORE_PATH, "r") as file:
             high_score = int(file.read().strip())
     except (FileNotFoundError, ValueError):
         high_score = 0
 
 
 def save_high_score():
-    with open("highscore.txt", "w") as file:
+    with open(HIGH_SCORE_PATH, "w") as file:
         file.write(str(high_score))
 
 
@@ -523,7 +540,7 @@ def start_ending_sequence():
     ending_sentence_index = 0
     ending_fade_step = 0
 
-    snake_image = PILImage.open("snake_head.png")
+    snake_image = PILImage.open(resource_path("snake_head.png"))
     resized = snake_image.resize((400, 400), PILImage.Resampling.LANCZOS)
     end_img = ImageTk.PhotoImage(resized)
     ending_image_id = canvas.create_image(180, GAME_HEIGHT / 2, image=end_img, anchor=CENTER)

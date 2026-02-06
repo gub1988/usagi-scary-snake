@@ -11,8 +11,6 @@ a = Analysis(
         ('scary-scream-401725 (1).wav', '.'),
         ('snake_head.png', '.'),
         ('jumpscare.jpg', '.'),
-        ('high_score.txt', '.'),
-        ('highscore.txt', '.'),
     ],
     hiddenimports=[],
     hookspath=[],
@@ -45,4 +43,15 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    exclude_binaries=True,
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    strip=False,
+    upx=True,
+    name='UsagiScarySnake',
 )
