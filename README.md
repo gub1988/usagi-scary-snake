@@ -2,6 +2,11 @@
 
 A horror-flavored Snake game with achievements, Beast Mode obstacles, and a secret ending.
 
+### Quick Start (No Python Required)
+1. Go to **Releases** on the right sidebar
+2. Download `UsagiScarySnake.zip`
+3. Extract and run `UsagiScarySnake.exe`
+
 ### Features
 - Menu, credits, achievements, and difficulty selection
 - Beast Mode with moving obstacles
@@ -10,15 +15,16 @@ A horror-flavored Snake game with achievements, Beast Mode obstacles, and a secr
 - Final narrative sequence at score 100
 
 ### Requirements
-- Python 3.10+
-- Windows/macOS/Linux
+- **Windows** (for the .exe)
+- Python 3.10+ (if running from source)
+- macOS/Linux (run from source)
 
-Install dependencies:
+Install dependencies (source only):
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the game:
+Run from source:
 ```bash
 python main.py
 ```
